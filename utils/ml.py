@@ -90,7 +90,6 @@ def render_classification_tab(df):
         st.warning("Выберите хотя бы один числовой признак.")
         return
         
-    # Берем сырые данные
     X_raw = df[features].values
     y_raw = df[target].values
     
@@ -102,11 +101,9 @@ def render_classification_tab(df):
     classes = np.unique(y_raw)
     st.info(f"Классы: {list(classes)}")
     
-    # Заполняем пропуски в признаках медианой (чтобы не терять данные, как в лекциях)
     imputer = SimpleImputer(strategy='median')
     X = imputer.fit_transform(X_raw)
-    
-    # Теперь X и y_raw синхронизированы (оба отфильтрованы по valid_mask)
+
     X_train, X_test, y_train, y_test = train_test_split(X, y_raw, test_size=0.2, random_state=42)
     
     scaler = StandardScaler()
@@ -131,7 +128,6 @@ def render_classification_tab(df):
     st.write("Classification Report:")
     st.code(classification_report(y_test, y_pred, target_names=[str(c) for c in classes]))
     
-    # Указываем labels явно, чтобы порядок классов в матрице не зависел от тестовой выборки
     cm = confusion_matrix(y_test, y_pred, labels=classes)
     fig_cm, ax = plt.subplots()
     sb.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax, xticklabels=classes, yticklabels=classes)
@@ -203,7 +199,7 @@ def render_ml_tab(filtered_df):
     
     task = st.radio(
         "Тип задачи:",
-        ["Регрессия (предсказание числа)", "Классификация (предсказание класса)", "Кластеризация (поиск скрытых групп)"],
+        ["Регрессия", "Классификация", "Кластеризация"],
         horizontal=True,
         key="ml_task"
     )
