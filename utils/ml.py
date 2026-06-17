@@ -94,9 +94,9 @@ def render_classification_tab(df):
     y_raw = df[target].values
     
     # Оставляем только строки, где известен целевой класс (иначе мы не сможем обучаться)
-    valid_mask = ~pd.isna(y_raw)
-    X_raw = X_raw[valid_mask]
-    y_raw = y_raw[valid_mask]
+    #valid_mask = ~pd.isna(y_raw)
+    #X_raw = X_raw[valid_mask]
+    #y_raw = y_raw[valid_mask]
     
     classes = np.unique(y_raw)
     st.info(f"Классы: {list(classes)}")
