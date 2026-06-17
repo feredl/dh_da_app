@@ -74,12 +74,12 @@ def render_regression_tab(df):
 
 def render_classification_tab(df):
     st.subheader("Классификация")
-    
+    st.subheader("Раздел в разработке")
     cat_cols = df.select_dtypes(exclude='number').columns.tolist()
     num_cols = df.select_dtypes(include='number').columns.tolist()
     
     if not cat_cols:
-        st.warning("Нет категориальных признаков для таргета.")
+        st.warning("Нет категориальных признаков для целевой переменной.")
         return
         
     target = st.selectbox("Целевой признак (класс):", cat_cols, key="clf_target")
