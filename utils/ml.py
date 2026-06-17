@@ -103,8 +103,10 @@ def render_classification_tab(df):
     st.info(f"Классы: {list(classes)}")
     
     # Заполняем пропуски в признаках медианой (чтобы не терять данные, как в лекциях)
-    X = SimpleImputer(strategy='median').fit_transform(X_raw)
+    imputer = SimpleImputer(strategy='median')
+    X = imputer.fit_transform(X_raw)
     
+    # Теперь X и y_raw синхронизированы (оба отфильтрованы по valid_mask)
     X_train, X_test, y_train, y_test = train_test_split(X, y_raw, test_size=0.2, random_state=42)
     
     scaler = StandardScaler()
